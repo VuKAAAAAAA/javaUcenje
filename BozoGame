@@ -1,0 +1,134 @@
+import java.util.Scanner;
+import java.util.Random;
+
+public class TekstGame {
+
+	public static void main(String[] args) {
+		
+		//Sistemski objekti
+		Scanner in = new Scanner(System.in);
+		Random rand = new Random();
+		
+		//Varijable igre
+		String [] neprijatelji = {"Vuk", "Medo", "Lisica", "Jazavac"};
+		int maxNeprijateljiHP = 750;
+		int neprijateljAD = 350;
+		
+		//Varijable igrača
+		int igracHP = 1000;
+		int igracAD = 500;
+		int brHealthPotions = 1;
+		int PotionHealAmount = 150;
+		int sansaZaDobitHP = 25; //postotak
+		
+		boolean running = true;
+		
+		System.out.println("Dobrodosli u Kucice !");
+		
+		IGRA:
+		while (running) 
+		{
+			System.out.println("----------------------------------------------------------");
+			
+			int neprijateljHP = rand.nextInt(maxNeprijateljiHP);
+			String neprijatelj = neprijatelji[rand.nextInt(neprijatelji.length)];
+			System.out.println("\t# " + neprijatelj + " te nanjusi-a/la #\n");
+			
+			while (neprijateljHP > 0)
+			{
+				System.out.println("\t Tvoj HP:" + igracHP);
+				System.out.println("\t " + neprijatelj + " ima " + neprijateljHP + "HP-a");
+				System.out.println("\n\tSta zelite da Boze napravi ?");
+				System.out.println("\t1. Napadne");
+				System.out.println("\t2. Popije teriyaki sos");
+				System.out.println("\t3. Pokusa pobic");
+				
+ 				String unos = in.nextLine();
+				if (unos.equals("1"))
+				{
+					int dmgNapravljen = rand.nextInt(igracAD);
+					int dmgPrimljen = rand.nextInt(neprijateljAD);
+					
+					neprijateljHP -= dmgNapravljen;
+					igracHP -= dmgPrimljen;
+					
+					System.out.println("\t Boze je napao " + neprijatelj + " i uzeo mu " + dmgNapravljen + "-HPa");
+					System.out.println("\t Boze je primia " + dmgPrimljen + "-HPa damage-a");
+					
+					if (igracHP < 1)
+					{
+						System.out.println("\t Boze je podlegao ozljedama, RIP :(");
+						break;
+					}
+					
+				}
+				else if (unos.equals("2"))
+				{
+					if (brHealthPotions > 0)
+					{
+						igracHP += PotionHealAmount;
+						brHealthPotions--;
+						System.out.println("Boze je popio teriyaki sos i dobio " + PotionHealAmount + "HP-a");
+						System.out.println("\t\nBoze sada ima " + igracHP + "HP-a");
+						System.out.println("\t\nBozi je ostalo " + brHealthPotions + " teriyaki sos-eva\n");
+					}
+					else 
+					{
+						System.out.println("\tBoze je ostao bez teriyaki sos-a ! Ubi neku zivotinju za sansu da nades teriyaki sos ");
+					}
+						
+					
+				}
+				else if (unos.equals("3"))
+				{
+					System.out.println("Boze je pobjegao od " + neprijatelj + "!");
+					continue IGRA;
+				}
+				else
+				{
+					System.out.println("Boze nije sposoban to napravit");	
+				}
+			}
+			if (igracHP < 1)
+			{
+				System.out.println("Boze je podlegao ozljedama, RIP :(");
+				break;
+			}
+			
+			System.out.println("---------------------------------------------------------");
+			System.out.println(" # " + neprijatelj + " je mrtav #");
+			System.out.println(" # Boze ima " + igracHP + "HP-a #");
+			if (rand.nextInt(100) < sansaZaDobitHP )
+			{
+				brHealthPotions++;
+				System.out.println(" # " + neprijatelj + " je dropao teriyaki sos");
+				System.out.println(" Bozo ima " + brHealthPotions + " teriyaki sos-eva");
+			}
+			System.out.println("---------------------------------------------------------");
+			System.out.println("Sta zelite da Boze sad napravi ?");
+			System.out.println("1. Nastavi put na faks");
+			System.out.println("2. Bude picka i vrati se kuci");
+			
+			String unos1 = in.nextLine();
+			
+			while (!unos1.equals("1") && !unos1.equals("2"))
+			{
+				System.out.println("Boze nije sposoban to napravit");
+				unos1 = in.nextLine();
+			}
+			
+			if (unos1.equals("1"))
+			{
+				System.out.println("Boze nastavlja svoj put na faks");
+			}
+			else if (unos1.equals("2"))
+			{
+				System.out.println("Boze je odustao, vraca se kuci");
+				break;	
+			}
+						
+			}
+				
+		}
+ 
+	}
